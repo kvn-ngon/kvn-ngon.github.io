@@ -5,50 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kevin Ngon</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --chrome-light: #e8eaed;
-      --chrome-mid:   #9aa0a8;
-      --chrome-dark:  #3c4043;
-      --chrome-shine: #ffffff;
-      --bg:           #080a0c;
-      --card-bg:      rgba(255,255,255,0.03);
-      --card-border:  rgba(255,255,255,0.08);
-      --card-hover:   rgba(255,255,255,0.07);
+      --white:  #ffffff;
+      --dark:   #0a0c0e;
+      --muted:  rgba(255,255,255,0.4);
+      --subtle: rgba(255,255,255,0.08);
+      --border: rgba(255,255,255,0.1);
+      --radius: 6px;
+      --font:   'DM Sans', system-ui, sans-serif;
     }
 
     html, body {
-      height: 100%;
-      background: var(--bg);
-      color: var(--chrome-light);
-      font-family: 'Rajdhani', sans-serif;
-      overflow-x: hidden;
+      min-height: 100%;
+      background: var(--dark);
+      color: var(--white);
+      font-family: var(--font);
     }
 
-    .bg-wrap {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      overflow: hidden;
-    }
-
-    .cloud {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(90px);
-      opacity: 0.13;
-      animation: drift linear infinite;
-    }
-
-    .cloud-1 { width: 700px; height: 400px; background: #5a6170; top: -10%; left: -15%; animation-duration: 38s; animation-delay: 0s; }
-    .cloud-2 { width: 500px; height: 300px; background: #8a9099; top: 20%; right: -10%; animation-duration: 52s; animation-delay: -12s; }
-    .cloud-3 { width: 600px; height: 350px; background: #3d4550; top: 55%; left: 10%; animation-duration: 44s; animation-delay: -8s; }
-    .cloud-4 { width: 400px; height: 250px; background: #6e7880; top: 70%; right: 5%; animation-duration: 60s; animation-delay: -20s; }
-    .cloud-5 { width: 800px; height: 200px; background: #4a5260; top: 40%; left: 30%; animation-duration: 70s; animation-delay: -30s; }
-
+    /* ── CLOUDS ── */
+    .bg-wrap { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+    .cloud { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.12; animation: drift linear infinite; }
+    .c1 { width: 700px; height: 400px; background: #5a6170; top: -10%; left: -15%; animation-duration: 38s; }
+    .c2 { width: 500px; height: 300px; background: #8a9099; top: 20%; right: -10%; animation-duration: 52s; animation-delay: -12s; }
+    .c3 { width: 600px; height: 350px; background: #3d4550; top: 55%; left: 10%; animation-duration: 44s; animation-delay: -8s; }
+    .c4 { width: 400px; height: 250px; background: #6e7880; bottom: 5%; right: 5%; animation-duration: 60s; animation-delay: -20s; }
     @keyframes drift {
       0%   { transform: translateX(0) translateY(0) scale(1); }
       25%  { transform: translateX(60px) translateY(-30px) scale(1.05); }
@@ -57,16 +41,7 @@
       100% { transform: translateX(0) translateY(0) scale(1); }
     }
 
-    .grain {
-      position: fixed;
-      inset: 0;
-      z-index: 1;
-      pointer-events: none;
-      opacity: 0.035;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-      background-size: 200px 200px;
-    }
-
+    /* ── LAYOUT ── */
     .page {
       position: relative;
       z-index: 2;
@@ -74,40 +49,36 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 60px 24px 80px;
+      padding: 56px 24px 72px;
     }
 
+    /* ── IDENTITY ── */
     .identity {
       text-align: center;
-      margin-bottom: 56px;
-      animation: fade-up 0.9s ease both;
+      margin-bottom: 40px;
+      animation: fade-up 0.8s ease both;
     }
 
-    .logo-wrap {
-      width: 88px;
-      height: 88px;
-      margin: 0 auto 20px;
+    .avatar {
+      width: 84px;
+      height: 84px;
       border-radius: 50%;
-      border: 1px solid var(--card-border);
-      background: var(--card-bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      border: 1px solid var(--border);
+      background: var(--subtle);
+      margin: 0 auto 16px;
       overflow: hidden;
       position: relative;
     }
 
-    .logo-wrap::after {
+    .avatar::after {
       content: '';
       position: absolute;
       inset: 0;
       border-radius: 50%;
-      background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 60%);
-      pointer-events: none;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 60%);
     }
 
-    .logo-wrap img {
+    .avatar img {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -115,169 +86,283 @@
     }
 
     .name {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(3rem, 12vw, 5.5rem);
-      letter-spacing: 0.15em;
-      line-height: 1;
-      background: linear-gradient(
-        160deg,
-        var(--chrome-shine) 0%,
-        var(--chrome-light) 20%,
-        var(--chrome-mid) 45%,
-        var(--chrome-light) 65%,
-        var(--chrome-dark) 85%,
-        var(--chrome-mid) 100%
-      );
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
     }
 
     .handle {
-      margin-top: 8px;
-      font-size: 0.95rem;
-      font-weight: 400;
-      letter-spacing: 0.15em;
-      color: var(--chrome-mid);
+      font-size: 0.85rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      margin-bottom: 8px;
     }
 
-    .tagline {
-      margin-top: 8px;
-      font-size: 0.8rem;
-      font-weight: 300;
-      letter-spacing: 0.3em;
+    .bio {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.25em;
       text-transform: uppercase;
-      color: var(--chrome-dark);
+      margin-bottom: 16px;
     }
 
+    /* ── SOCIAL ICONS ── */
+    .socials {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .social-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+
+    .social-btn:hover {
+      border-color: rgba(255,255,255,0.3);
+      color: var(--white);
+      background: rgba(255,255,255,0.1);
+    }
+
+    .social-btn svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    /* ── LINKS ── */
     .links {
       width: 100%;
       max-width: 400px;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 10px;
+    }
+
+    .section-label {
+      font-size: 0.65rem;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 6px 0 2px;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+      margin: 2px 0;
     }
 
     .link-card {
       display: flex;
       align-items: center;
-      gap: 16px;
-      padding: 18px 22px;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 6px;
+      gap: 14px;
+      padding: 14px 18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
       text-decoration: none;
-      color: var(--chrome-light);
-      font-weight: 500;
-      font-size: 1rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+      color: var(--white);
       position: relative;
       overflow: hidden;
-      transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
-      animation: fade-up 0.9s ease both;
-      animation-delay: 0.15s;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+      animation: fade-up 0.8s ease both;
     }
+
+    .link-card:nth-child(1) { animation-delay: 0.1s; }
+    .link-card:nth-child(2) { animation-delay: 0.15s; }
+    .link-card:nth-child(3) { animation-delay: 0.2s; }
+    .link-card:nth-child(4) { animation-delay: 0.25s; }
+    .link-card:nth-child(5) { animation-delay: 0.3s; }
 
     .link-card::before {
       content: '';
       position: absolute;
       top: 0; left: -100%;
-      width: 60%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+      width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
       transition: left 0.5s ease;
     }
 
     .link-card:hover::before { left: 150%; }
 
     .link-card:hover {
-      background: var(--card-hover);
-      border-color: rgba(255,255,255,0.18);
-      transform: translateY(-2px);
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(255,255,255,0.2);
+      transform: translateY(-1px);
     }
 
     .link-icon {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       border-radius: 4px;
-      border: 1px solid rgba(255,255,255,0.1);
-      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      font-size: 1.1rem;
+      font-size: 1rem;
     }
 
-    .link-label { flex: 1; }
+    .link-text { flex: 1; }
+
+    .link-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .link-sub {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.35);
+      margin-top: 2px;
+      letter-spacing: 0.04em;
+    }
+
+    .link-discount {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 3px;
+      padding: 2px 7px;
+      flex-shrink: 0;
+    }
 
     .link-arrow {
-      font-size: 1rem;
-      color: var(--chrome-dark);
-      transition: color 0.2s, transform 0.2s;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.2);
+      margin-left: 4px;
+      flex-shrink: 0;
     }
 
-    .link-card:hover .link-arrow {
-      color: var(--chrome-mid);
-      transform: translateX(4px);
-    }
-
+    /* ── FOOTER ── */
     .footer {
-      position: fixed;
-      bottom: 24px;
-      font-size: 0.7rem;
+      margin-top: 40px;
+      font-size: 0.65rem;
       letter-spacing: 0.2em;
-      color: var(--chrome-dark);
+      color: rgba(255,255,255,0.12);
       text-transform: uppercase;
-      z-index: 2;
     }
 
     @keyframes fade-up {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(16px); }
       to   { opacity: 1; transform: translateY(0); }
     }
 
     @media (max-width: 480px) {
       .page { padding: 40px 16px 60px; }
-      .identity { margin-bottom: 40px; }
     }
   </style>
 </head>
 <body>
 
   <div class="bg-wrap">
-    <div class="cloud cloud-1"></div>
-    <div class="cloud cloud-2"></div>
-    <div class="cloud cloud-3"></div>
-    <div class="cloud cloud-4"></div>
-    <div class="cloud cloud-5"></div>
+    <div class="cloud c1"></div>
+    <div class="cloud c2"></div>
+    <div class="cloud c3"></div>
+    <div class="cloud c4"></div>
   </div>
-  <div class="grain"></div>
 
   <div class="page">
 
+    <!-- Identity -->
     <div class="identity">
-      <div class="logo-wrap">
-        <!-- Drop your logo into assets/logo.png — it will show here automatically -->
-        <img src="assets/logo.png" alt="Kevin Ngon" onerror="this.style.display='none'" />
+      <div class="avatar">
+        <!-- Drop your photo as assets/photo.jpg and it shows here -->
+        <img src="assets/photo.jpg" alt="Kevin Ngon" onerror="this.style.display='none'" />
       </div>
-      <h1 class="name">Kevin Ngon</h1>
-      <p class="handle">@kvn.ngon</p>
-      <p class="tagline">Foodie &nbsp;·&nbsp; Travel &nbsp;·&nbsp; Fitness Coach</p>
+      <div class="name">Kevin Ngon</div>
+      <div class="handle">@kvn.ngon</div>
+      <div class="bio">Foodie &nbsp;·&nbsp; Travel &nbsp;·&nbsp; Fitness Coach</div>
+
+      <!-- Social icons -->
+      <div class="socials">
+        <a class="social-btn" href="https://www.youtube.com/@kvnngon" target="_blank" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8zM9.75 15.5V8.5l6.25 3.5-6.25 3.5z"/></svg>
+        </a>
+        <a class="social-btn" href="https://www.instagram.com/kvn.ngon/" target="_blank" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8 0 3.2 0 3.6-.1 4.8-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1-3.2 0-3.6 0-4.8-.1-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12c0-3.2 0-3.6.1-4.8C2.4 3.9 4 2.3 7.2 2.3c1.2-.1 1.6-.1 4.8-.1zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1.0 8.3 0 8.7 0 12c0 3.3 0 3.7.1 4.9.2 4.4 2.6 6.8 7 7C8.3 24 8.7 24 12 24c3.3 0 3.7 0 4.9-.1 4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9 0-3.3 0-3.7-.1-4.9C23.7 2.7 21.3.3 16.9.1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4A6.2 6.2 0 0 0 12 5.8zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/></svg>
+        </a>
+        <a class="social-btn" href="https://www.tiktok.com/@kvn.ngon" target="_blank" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.6 3.3A4.7 4.7 0 0 1 14.9 0h-3.4v16.4a2.8 2.8 0 0 1-2.8 2.4 2.8 2.8 0 0 1-2.8-2.8 2.8 2.8 0 0 1 2.8-2.8c.3 0 .5 0 .8.1V9.8a6.2 6.2 0 0 0-.8-.1 6.2 6.2 0 0 0-6.2 6.2 6.2 6.2 0 0 0 6.2 6.2 6.2 6.2 0 0 0 6.2-6.2V8.1a8 8 0 0 0 4.7 1.5V6.2a4.7 4.7 0 0 1-2.8-.9z"/></svg>
+        </a>
+      </div>
     </div>
 
+    <!-- Links -->
     <div class="links">
-      <a class="link-card" href="https://kvnngon.com/application">
+
+      <!-- Coaching -->
+      <div class="section-label">coaching</div>
+
+      <a class="link-card" href="https://kvnngon.com/application" target="_blank">
         <div class="link-icon">📋</div>
-        <span class="link-label">Apply for Coaching</span>
+        <div class="link-text">
+          <div class="link-title">Coaching Application</div>
+          <div class="link-sub">Apply for 1-on-1 coaching</div>
+        </div>
         <span class="link-arrow">→</span>
       </a>
+
+      <div class="divider"></div>
+
+      <!-- Affiliates -->
+      <div class="section-label">affiliates</div>
+
+      <a class="link-card" href="https://powercube.au/" target="_blank">
+        <div class="link-icon">⚡</div>
+        <div class="link-text">
+          <div class="link-title">PowerCube</div>
+          <div class="link-sub">Creatine Gummies</div>
+        </div>
+        <span class="link-discount">NGON</span>
+        <span class="link-arrow">→</span>
+      </a>
+
+      <a class="link-card" href="https://musclenation.org/?growi=kev86" target="_blank">
+        <div class="link-icon">💪</div>
+        <div class="link-text">
+          <div class="link-title">Muscle Nation</div>
+          <div class="link-sub">Supplements & apparel</div>
+        </div>
+        <span class="link-discount">KEV86</span>
+        <span class="link-arrow">→</span>
+      </a>
+
+      <a class="link-card" href="https://fareastalchemy.com/" target="_blank">
+        <div class="link-icon">⚗️</div>
+        <div class="link-text">
+          <div class="link-title">Far East Alchemy</div>
+          <div class="link-sub">Use code at checkout</div>
+        </div>
+        <span class="link-discount">NGON</span>
+        <span class="link-arrow">→</span>
+      </a>
+
     </div>
 
-  </div>
+    <p class="footer">© 2026 Kevin Ngon</p>
 
-  <p class="footer">© 2026 Kevin Ngon</p>
+  </div>
 
 </body>
 </html>

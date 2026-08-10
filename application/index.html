@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coaching Program Application</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- BACKGROUND LAYER -->
+    <div class="bg-layer" id="bgLayer"></div>
+    <div class="bg-overlay"></div>
+
+    <!-- PROGRESS BAR -->
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- FORM PAGES CONTAINER -->
+    <div class="pages-container" id="pagesContainer"></div>
+
+    <!-- NAV BUTTONS -->
+    <div class="nav-buttons" id="navButtons">
+      <button class="btn-back" id="btnBack" onclick="prevPage()">&#8592; Back</button>
+      <button class="btn-next" id="btnNext" onclick="nextPage()">Continue &#8594;</button>
+      <button class="btn-submit" id="btnSubmit" onclick="submitForm()" style="display:none">Submit Application</button>
+    </div>
+
+    <!-- THANK YOU SCREEN -->
+    <div class="thankyou-screen" id="thankyouScreen">
+      <div class="thankyou-inner">
+        <div class="thankyou-icon">✦</div>
+        <h1>Thank you.</h1>
+        <p>Your application has been received. I'll be in touch within 48 hours.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/form.js"></script>
+</body>
+</html>
