@@ -142,6 +142,11 @@
       fill: currentColor;
     }
 
+    .social-btn.yt       { color: #FF0000; }
+    .social-btn.yt:hover { color: #FF0000; }
+    .social-btn.tt       { color: #FE2C55; }
+    .social-btn.tt:hover { color: #FE2C55; }
+
     /* ── LINKS ── */
     .links {
       width: 100%;
@@ -153,7 +158,7 @@
 
     .section-label {
       font-size: 0.65rem;
-      color: rgba(255,255,255,0.2);
+      color: var(--white);
       letter-spacing: 0.25em;
       text-transform: uppercase;
       text-align: center;
@@ -217,6 +222,13 @@
       justify-content: center;
       flex-shrink: 0;
       font-size: 1rem;
+      overflow: hidden;
+    }
+
+    .link-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
     }
 
     .link-text { flex: 1; }
@@ -289,21 +301,31 @@
     <div class="identity">
       <div class="avatar">
         <!-- Drop your photo as assets/photo.jpg and it shows here -->
-        <img src="assets/photo.jpg" alt="Kevin Ngon" onerror="this.style.display='none'" />
+        <img src="assets/dp.jpeg" alt="Kevin Ngon" onerror="this.style.display='none'" />
       </div>
       <div class="name">Kevin Ngon</div>
       <div class="handle">@kvn.ngon</div>
-      <div class="bio">Foodie &nbsp;·&nbsp; Travel &nbsp;·&nbsp; Fitness Coach</div>
+      <div class="bio">Foodie &nbsp;·&nbsp; Fitness Coach &nbsp;·&nbsp; Travel</div>
 
       <!-- Social icons -->
       <div class="socials">
-        <a class="social-btn" href="https://www.youtube.com/@kvnngon" target="_blank" aria-label="YouTube">
+        <a class="social-btn yt" href="https://www.youtube.com/@kvnngon" target="_blank" aria-label="YouTube">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.5 31.5 0 0 0 0 12a31.5 31.5 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31.5 31.5 0 0 0 24 12a31.5 31.5 0 0 0-.5-5.8zM9.75 15.5V8.5l6.25 3.5-6.25 3.5z"/></svg>
         </a>
-        <a class="social-btn" href="https://www.instagram.com/kvn.ngon/" target="_blank" aria-label="Instagram">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8 0 3.2 0 3.6-.1 4.8-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1-3.2 0-3.6 0-4.8-.1-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12c0-3.2 0-3.6.1-4.8C2.4 3.9 4 2.3 7.2 2.3c1.2-.1 1.6-.1 4.8-.1zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1.0 8.3 0 8.7 0 12c0 3.3 0 3.7.1 4.9.2 4.4 2.6 6.8 7 7C8.3 24 8.7 24 12 24c3.3 0 3.7 0 4.9-.1 4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9 0-3.3 0-3.7-.1-4.9C23.7 2.7 21.3.3 16.9.1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4A6.2 6.2 0 0 0 12 5.8zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/></svg>
+        <a class="social-btn ig" href="https://www.instagram.com/kvn.ngon/" target="_blank" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="ig-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%"   stop-color="#FCAF45"/>
+                <stop offset="30%"  stop-color="#FD1D1D"/>
+                <stop offset="60%"  stop-color="#E1306C"/>
+                <stop offset="100%" stop-color="#833AB4"/>
+              </linearGradient>
+            </defs>
+            <path fill="url(#ig-grad)" d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8 0 3.2 0 3.6-.1 4.8-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1-3.2 0-3.6 0-4.8-.1-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12c0-3.2 0-3.6.1-4.8C2.4 3.9 4 2.3 7.2 2.3c1.2-.1 1.6-.1 4.8-.1zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1.0 8.3 0 8.7 0 12c0 3.3 0 3.7.1 4.9.2 4.4 2.6 6.8 7 7C8.3 24 8.7 24 12 24c3.3 0 3.7 0 4.9-.1 4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9 0-3.3 0-3.7-.1-4.9C23.7 2.7 21.3.3 16.9.1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4A6.2 6.2 0 0 0 12 5.8zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/>
+          </svg>
         </a>
-        <a class="social-btn" href="https://www.tiktok.com/@kvn.ngon" target="_blank" aria-label="TikTok">
+        <a class="social-btn tt" href="https://www.tiktok.com/@kvn.ngon" target="_blank" aria-label="TikTok">
           <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19.6 3.3A4.7 4.7 0 0 1 14.9 0h-3.4v16.4a2.8 2.8 0 0 1-2.8 2.4 2.8 2.8 0 0 1-2.8-2.8 2.8 2.8 0 0 1 2.8-2.8c.3 0 .5 0 .8.1V9.8a6.2 6.2 0 0 0-.8-.1 6.2 6.2 0 0 0-6.2 6.2 6.2 6.2 0 0 0 6.2 6.2 6.2 6.2 0 0 0 6.2-6.2V8.1a8 8 0 0 0 4.7 1.5V6.2a4.7 4.7 0 0 1-2.8-.9z"/></svg>
         </a>
       </div>
@@ -316,10 +338,12 @@
       <div class="section-label">coaching</div>
 
       <a class="link-card" href="https://kvnngon.com/application" target="_blank">
-        <div class="link-icon">📋</div>
+        <div class="link-icon">
+          <img src="assets/kvnf.png" alt="EAT TASTY LOOK TASTY Logo" />
+        </div>
         <div class="link-text">
-          <div class="link-title">Coaching Application</div>
-          <div class="link-sub">Apply for 1-on-1 coaching</div>
+          <div class="link-title">EAT TASTY LOOK TASTY</div>
+          <div class="link-sub">Apply for 1:1 coaching</div>
         </div>
         <span class="link-arrow">→</span>
       </a>
@@ -329,33 +353,39 @@
       <!-- Affiliates -->
       <div class="section-label">affiliates</div>
 
+      <a class="link-card" href="https://musclenation.org/?growi=kev86" target="_blank">
+        <div class="link-icon">
+          <img src="assets/mn.png" alt="Muscle Nation Logo" />
+        </div>
+        <div class="link-text">
+          <div class="link-title">Muscle Nation</div>
+          <div class="link-sub">Supplements & Apparel</div>
+        </div>
+        <span class="link-discount">code: KEV86</span>
+        <span class="link-arrow">→</span>
+      </a>
+
       <a class="link-card" href="https://powercube.au/" target="_blank">
-        <div class="link-icon">⚡</div>
+        <div class="link-icon">
+          <img src="assets/pc.png" alt="PowerCube Logo" />
+        </div>
         <div class="link-text">
           <div class="link-title">PowerCube</div>
           <div class="link-sub">Creatine Gummies</div>
         </div>
-        <span class="link-discount">NGON</span>
-        <span class="link-arrow">→</span>
-      </a>
-
-      <a class="link-card" href="https://musclenation.org/?growi=kev86" target="_blank">
-        <div class="link-icon">💪</div>
-        <div class="link-text">
-          <div class="link-title">Muscle Nation</div>
-          <div class="link-sub">Supplements & apparel</div>
-        </div>
-        <span class="link-discount">KEV86</span>
+        <span class="link-discount">code: NGON</span>
         <span class="link-arrow">→</span>
       </a>
 
       <a class="link-card" href="https://fareastalchemy.com/" target="_blank">
-        <div class="link-icon">⚗️</div>
+        <div class="link-icon">
+          <img src="assets/fea.png" alt="Far East Alchemy Logo" />
+        </div>
         <div class="link-text">
           <div class="link-title">Far East Alchemy</div>
-          <div class="link-sub">Use code at checkout</div>
+          <div class="link-sub">Asian Flavour Protein</div>
         </div>
-        <span class="link-discount">NGON</span>
+        <span class="link-discount">code: NGON</span>
         <span class="link-arrow">→</span>
       </a>
 
@@ -365,10 +395,12 @@
       <div class="section-label">my rice cooker</div>
 
       <a class="link-card" href="https://amazon.com.au/dp/B00OMB4Z5E?tag=kvnngon-22" target="_blank">
-        <div class="link-icon">🍚</div>
+        <div class="link-icon">
+          <img src="assets/rc.png" alt="Rice Cooker Logo" />
+        </div>
         <div class="link-text">
-          <div class="link-title">Rice Cooker</div>
-          <div class="link-sub">The one I use & love</div>
+          <div class="link-title">Zojirushi NS-ZCC10</div>
+          <div class="link-sub">5.5 Cup Japanese Rice Cooker</div>
         </div>
         <span class="link-arrow">→</span>
       </a>
