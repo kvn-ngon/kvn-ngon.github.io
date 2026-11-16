@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Step Challenge Admin — KVN Fitness</title>
+<link rel="icon" type="image/png" sizes="32x32" href="../project30/project30-icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../project30/project30-icons/favicon-16.png">
+<link rel="apple-touch-icon" href="../project30/project30-icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="theme.css">
+<style>
+.topbar{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.topbar__actions{display:flex;gap:10px;flex-wrap:wrap}
+.section{display:flex;flex-direction:column;gap:16px}
+.section__head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+
+.login{max-width:440px;display:flex;flex-direction:column;gap:20px}
+.fieldset{display:flex;flex-direction:column;gap:4px}
+
+.daypick{display:flex;align-items:center;gap:8px}
+.select{appearance:none;-webkit-appearance:none;min-height:44px;padding:0 40px 0 14px;background:var(--panel) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1.5l5 5 5-5' stroke='%23FFE600' stroke-width='2'/%3E%3C/svg%3E") no-repeat right 14px center;
+  color:var(--text-strong);border:1px solid color-mix(in srgb,var(--neon) 50%,transparent);font-family:'Orbitron',sans-serif;font-size:13px;letter-spacing:.08em;cursor:pointer}
+.select option{background:var(--panel)}
+.today{font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:.2em;color:var(--bg);background:var(--neon);padding:3px 6px;margin-left:8px;vertical-align:middle}
+
+.entries{display:flex;flex-direction:column}
+.entry{display:grid;grid-template-columns:minmax(0,1fr) 180px;align-items:center;gap:16px;padding:6px 0;border-bottom:1px solid var(--line)}
+.entry:last-child{border-bottom:0}
+.entry__name{font-size:21px;font-weight:600;color:var(--text-strong);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.entry .field{text-align:right;font-variant-numeric:tabular-nums}
+.entry.is-dirty .field{border-bottom-color:var(--neon);color:var(--neon)}
+.entry.is-dirty .entry__name::after{content:" •";color:var(--neon)}
+.savebar{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+
+.addform{display:flex;gap:12px;align-items:flex-end}
+.addform .fieldset{flex:1 1 auto}
+.clients{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.client{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--line);font-size:20px;font-weight:600;color:var(--text-strong)}
+.client:last-child{border-bottom:0}
+.linkbtn{background:none;border:0;padding:6px 0;color:var(--muted);font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:.18em;cursor:pointer}
+.linkbtn:hover{color:var(--error)}
+
+.tablewrap{overflow-x:auto;border:1px solid var(--line)}
+.grid{border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:16px;white-space:nowrap}
+.grid th,.grid td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:right}
+.grid th:first-child,.grid td:first-child{position:sticky;left:0;background:var(--panel);text-align:left;font-weight:700;color:var(--text-strong);z-index:1}
+.grid thead th{font-family:'Orbitron',sans-serif;font-size:11px;letter-spacing:.1em;color:var(--muted);font-weight:500}
+.grid thead button{background:none;border:0;color:inherit;font:inherit;cursor:pointer;padding:0}
+.grid thead button:hover{color:var(--neon)}
+.grid .is-sel{background:color-mix(in srgb,var(--neon) 10%,transparent);color:var(--neon)}
+.grid .empty{color:var(--placeholder)}
+.grid .tot{color:var(--neon);font-weight:700}
+.muted{color:var(--muted);font-size:17px;margin:0}
+
+@media (max-width:640px){
+  .entry{grid-template-columns:minmax(0,1fr) 130px;gap:12px}
+  .entry__name{font-size:19px}
+  .daypick{width:100%}
+  .daypick .select{flex:1 1 auto;min-width:0;padding:0 32px 0 10px;background-position:right 10px center;letter-spacing:.04em}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="floor" aria-hidden="true"></div>
+  <div class="horizon" aria-hidden="true"></div>
+  <div class="streak" aria-hidden="true"></div>
+
+  <header class="header">
+    <div class="brand">
+      <div class="emblem-wrap"><span class="emblem" role="img" aria-label="KVN Fitness"></span></div>
+      <div class="wordmark">
+        <span class="wordmark__kvn glow">KVN</span>
+        <span class="wordmark__sub">FITNESS</span>
+      </div>
+      <span class="divider" aria-hidden="true"></span>
+      <span class="tag">STEP CHALLENGE // COACH</span>
+    </div>
+    <span class="counter" id="counter"></span>
+  </header>
+
+  <main class="main">
+    <div class="stage">
+
+      <!-- ---------- Login ---------- -->
+      <form class="screen login" id="loginView" hidden>
+        <span class="eyebrow">COACH ACCESS</span>
+        <h1 class="title glow">LOG IN</h1>
+        <div class="fieldset"><label class="label" for="email">Email</label>
+          <input class="field" id="email" type="email" autocomplete="username" required></div>
+        <div class="fieldset"><label class="label" for="password">Password</label>
+          <input class="field" id="password" type="password" autocomplete="current-password" required></div>
+        <p class="error" id="loginError" role="alert" hidden></p>
+        <div><button class="btn btn--solid" id="loginBtn" type="submit">LOG IN</button></div>
+      </form>
+
+      <p class="panel error" id="setupView" hidden>Supabase isn't set up yet — add your project URL and key to <code>steps/config.js</code>.</p>
+
+      <!-- ---------- Console ---------- -->
+      <div class="screen" id="appView" hidden>
+        <div class="topbar">
+          <div>
+            <span class="eyebrow">COACH CONSOLE</span>
+            <h1 class="title glow">LOG STEPS</h1>
+          </div>
+          <div class="topbar__actions">
+            <a class="btn" href="./" target="_blank">LEADERBOARD</a>
+            <button class="btn btn--ghost" id="logoutBtn" type="button">LOG OUT</button>
+          </div>
+        </div>
+
+        <!-- Steps for one day -->
+        <section class="panel section" id="daySection" aria-labelledby="dayHeading">
+          <div class="section__head">
+            <h2 class="h2" id="dayHeading">STEPS FOR DAY</h2>
+            <div class="daypick">
+              <button class="iconbtn" id="prevDay" type="button" aria-label="Previous day">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="2"/></svg></button>
+              <select class="select" id="daySelect" aria-label="Challenge day"></select>
+              <button class="iconbtn" id="nextDay" type="button" aria-label="Next day">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2"/></svg></button>
+            </div>
+          </div>
+          <div class="entries" id="entries"></div>
+          <div class="savebar">
+            <button class="btn btn--solid" id="saveBtn" type="button" disabled>SAVE DAY</button>
+            <span class="status" id="saveStatus" role="status"></span>
+          </div>
+        </section>
+
+        <!-- All days overview -->
+        <section class="panel section" aria-labelledby="gridHeading">
+          <div class="section__head">
+            <h2 class="h2" id="gridHeading">ALL DAYS</h2>
+            <span class="muted">Click a day to edit it.</span>
+          </div>
+          <div class="tablewrap"><table class="grid" id="grid"></table></div>
+        </section>
+
+        <!-- Clients -->
+        <section class="panel section" aria-labelledby="clientsHeading">
+          <h2 class="h2" id="clientsHeading">CLIENTS</h2>
+          <form class="addform" id="addForm">
+            <div class="fieldset"><label class="label" for="newName">Add client</label>
+              <input class="field" id="newName" placeholder="Name as it should appear on the leaderboard" autocomplete="off"></div>
+            <button class="btn" type="submit">ADD</button>
+          </form>
+          <p class="error" id="clientError" role="alert" hidden></p>
+          <ul class="clients" id="clients"></ul>
+        </section>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="common.js"></script>
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+  const T = CONFIG.totalDays;
+  const MAX_STEPS = 200000;
+  const state = { data: { clients: [], steps: [] }, day: currentDay(), drafts: {} };
+
+  // ---------- Helpers ----------
+  const stepsFor = (day) => new Map(state.data.steps.filter((s) => s.day === day).map((s) => [s.client_id, s.steps]));
+  const parseSteps = (v) => {
+    const t = String(v).replace(/[,\s]/g, "");
+    if (t === "") return null;
+    return /^\d+$/.test(t) ? Number(t) : NaN;
+  };
+  const isDirty = () => Object.keys(state.drafts).length > 0;
+  function setStatus(text, kind) {
+    $("saveStatus").textContent = text;
+    $("saveStatus").className = "status" + (kind ? " status--" + kind : "");
+  }
+  function showError(id, msg) { $(id).textContent = msg || ""; $(id).hidden = !msg; }
+
+  // ---------- Render ----------
+  function renderDayPicker() {
+    const today = todayDay();
+    $("daySelect").innerHTML = Array.from({ length: T }, (_, i) => {
+      const d = i + 1;
+      return `<option value="${d}" ${d === state.day ? "selected" : ""}>D${pad(d)} · ${dayLabel(d, { day: "numeric", month: "short" }).toUpperCase()}</option>`;
+    }).join("");
+    $("prevDay").disabled = state.day <= 1;
+    $("nextDay").disabled = state.day >= T;
+    $("dayHeading").innerHTML = `STEPS FOR DAY ${pad(state.day)}${state.day === today ? '<span class="today">TODAY</span>' : ""}`;
+  }
+
+  function renderEntries() {
+    const saved = stepsFor(state.day);
+    const { clients } = state.data;
+    if (!clients.length) {
+      $("entries").innerHTML = `<p class="muted">Add your clients below to start logging steps.</p>`;
+    } else {
+      $("entries").innerHTML = clients.map((c) => {
+        const v = c.id in state.drafts ? state.drafts[c.id] : saved.has(c.id) ? fmt(saved.get(c.id)) : "";
+        return `<label class="entry ${c.id in state.drafts ? "is-dirty" : ""}" data-row="${c.id}">
+          <span class="entry__name">${esc(c.name)}</span>
+          <input class="field" data-client="${c.id}" inputmode="numeric" autocomplete="off" placeholder="—" value="${esc(v)}">
+        </label>`;
+      }).join("");
+    }
+    $("saveBtn").disabled = !isDirty();
+  }
+
+  function renderGrid() {
+    const { clients, steps } = state.data;
+    if (!clients.length) { $("grid").innerHTML = `<tbody><tr><td class="empty">No clients yet.</td></tr></tbody>`; return; }
+    const cell = new Map(steps.map((s) => [s.client_id + ":" + s.day, s.steps]));
+    const days = Array.from({ length: T }, (_, i) => i + 1);
+    const sel = (d) => (d === state.day ? ' class="is-sel"' : "");
+    const head = `<thead><tr><th>Client</th>${days.map((d) =>
+      `<th${sel(d)}><button type="button" data-day="${d}" title="${dayLabel(d)}">D${pad(d)}</button></th>`).join("")}<th>Total</th></tr></thead>`;
+    const body = clients.map((c) => {
+      let total = 0;
+      const tds = days.map((d) => {
+        const v = cell.get(c.id + ":" + d);
+        if (v !== undefined) total += v;
+        const cls = [d === state.day ? "is-sel" : "", v === undefined ? "empty" : ""].filter(Boolean).join(" ");
+        return `<td${cls ? ` class="${cls}"` : ""}>${v === undefined ? "–" : fmt(v)}</td>`;
+      }).join("");
+      return `<tr><td>${esc(c.name)}</td>${tds}<td class="tot">${fmt(total)}</td></tr>`;
+    }).join("");
+    $("grid").innerHTML = head + `<tbody>${body}</tbody>`;
+  }
+
+  function renderClients() {
+    const { clients } = state.data;
+    $("clients").innerHTML = clients.length
+      ? clients.map((c) => `<li class="client"><span>${esc(c.name)}</span>
+          <button class="linkbtn" type="button" data-remove="${c.id}">REMOVE</button></li>`).join("")
+      : `<li class="muted">No clients yet.</li>`;
+  }
+
+  function renderAll() {
+    const d = todayDay();
+    $("counter").textContent = d < 1 ? "STARTS SOON" : d > T ? "COMPLETE" : `DAY ${pad(d)} / ${T}`;
+    renderDayPicker(); renderEntries(); renderGrid(); renderClients();
+  }
+
+  async function reload() {
+    state.data = await loadChallenge();
+    renderAll();
+  }
+
+  // ---------- Day switching ----------
+  function goToDay(day) {
+    day = Math.max(1, Math.min(T, day));
+    if (day === state.day) return;
+    if (isDirty() && !confirm(`You have unsaved changes for Day ${state.day}. Discard them?`)) { renderDayPicker(); return; }
+    state.day = day; state.drafts = {};
+    setStatus("");
+    renderDayPicker(); renderEntries(); renderGrid();
+  }
+  $("prevDay").addEventListener("click", () => goToDay(state.day - 1));
+  $("nextDay").addEventListener("click", () => goToDay(state.day + 1));
+  $("daySelect").addEventListener("change", (e) => goToDay(Number(e.target.value)));
+  $("grid").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-day]");
+    if (!b) return;
+    goToDay(Number(b.dataset.day));
+    $("daySection").scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+
+  // ---------- Entering steps ----------
+  $("entries").addEventListener("input", (e) => {
+    const f = e.target.closest("[data-client]");
+    if (!f) return;
+    const id = f.dataset.client;
+    const saved = stepsFor(state.day).get(id);
+    const val = parseSteps(f.value);
+    if (val === (saved ?? null)) delete state.drafts[id]; else state.drafts[id] = f.value;
+    f.closest(".entry").classList.toggle("is-dirty", id in state.drafts);
+    f.setAttribute("aria-invalid", "false");
+    $("saveBtn").disabled = !isDirty();
+    setStatus(isDirty() ? "Unsaved changes" : "");
+  });
+  // Enter moves down the list; on the last client it saves.
+  $("entries").addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" || !e.target.matches("[data-client]")) return;
+    e.preventDefault();
+    const fields = [...$("entries").querySelectorAll("[data-client]")];
+    const next = fields[fields.indexOf(e.target) + 1];
+    if (next) next.focus(); else save();
+  });
+
+  async function save() {
+    if (!isDirty()) return;
+    const saved = stepsFor(state.day);
+    const upserts = [], deletes = [];
+    for (const [id, raw] of Object.entries(state.drafts)) {
+      const v = parseSteps(raw);
+      if (Number.isNaN(v) || v > MAX_STEPS) {
+        const f = $("entries").querySelector(`[data-client="${id}"]`);
+        f.setAttribute("aria-invalid", "true"); f.focus();
+        setStatus(Number.isNaN(v) ? "Steps must be a whole number." : `That's over ${fmt(MAX_STEPS)} steps — check the number.`, "err");
+        return;
+      }
+      if (v === null) { if (saved.has(id)) deletes.push(id); }
+      else upserts.push({ client_id: id, day: state.day, steps: v, updated_at: new Date().toISOString() });
+    }
+
+    $("saveBtn").disabled = true;
+    setStatus("Saving…");
+    try {
+      if (upserts.length) {
+        const { error } = await db.from("steps").upsert(upserts, { onConflict: "client_id,day" });
+        if (error) throw error;
+      }
+      if (deletes.length) {
+        const { error } = await db.from("steps").delete().eq("day", state.day).in("client_id", deletes);
+        if (error) throw error;
+      }
+      state.drafts = {};
+      await reload();
+      setStatus(`Day ${state.day} saved ✓`, "ok");
+    } catch (err) {
+      console.error(err);
+      $("saveBtn").disabled = false;
+      setStatus("Couldn't save: " + (err.message || "check your connection and try again."), "err");
+    }
+  }
+  $("saveBtn").addEventListener("click", save);
+  window.addEventListener("beforeunload", (e) => { if (isDirty()) { e.preventDefault(); e.returnValue = ""; } });
+
+  // ---------- Clients ----------
+  $("addForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const name = $("newName").value.trim().replace(/\s+/g, " ");
+    if (!name) return;
+    const existing = state.data.clients.find((c) => c.name.toLowerCase() === name.toLowerCase());
+    if (existing) return showError("clientError", `${existing.name} is already in the challenge.`);
+    showError("clientError", "");
+    const { error } = await db.from("clients").insert({ name });
+    if (error) return showError("clientError", "Couldn't add client: " + error.message);
+    $("newName").value = "";
+    await reload();
+    $("newName").focus();
+  });
+
+  $("clients").addEventListener("click", async (e) => {
+    const b = e.target.closest("[data-remove]");
+    if (!b) return;
+    const c = state.data.clients.find((x) => x.id === b.dataset.remove);
+    if (!c || !confirm(`Remove ${c.name} and all of their logged steps? This can't be undone.`)) return;
+    const { error } = await db.from("clients").delete().eq("id", c.id);
+    if (error) return showError("clientError", "Couldn't remove client: " + error.message);
+    delete state.drafts[c.id];
+    await reload();
+  });
+
+  // ---------- Auth ----------
+  async function showApp() {
+    $("loginView").hidden = true;
+    $("appView").hidden = false;
+    try { await reload(); }
+    catch (e) { console.error(e); setStatus("Couldn't load data: " + e.message, "err"); }
+  }
+  function showLogin() {
+    $("appView").hidden = true;
+    $("loginView").hidden = false;
+    $("email").focus();
+  }
+
+  $("loginView").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    showError("loginError", "");
+    $("loginBtn").disabled = true;
+    const { error } = await db.auth.signInWithPassword({ email: $("email").value.trim(), password: $("password").value });
+    $("loginBtn").disabled = false;
+    if (error) return showError("loginError", error.message === "Invalid login credentials" ? "Wrong email or password." : error.message);
+    $("password").value = "";
+    showApp();
+  });
+
+  $("logoutBtn").addEventListener("click", async () => {
+    if (isDirty() && !confirm("You have unsaved changes. Log out anyway?")) return;
+    state.drafts = {};
+    await db.auth.signOut();
+    showLogin();
+  });
+
+  (async function init() {
+    if (!db) { $("setupView").hidden = false; return; }
+    const { data } = await db.auth.getSession();
+    data.session ? showApp() : showLogin();
+  })();
+})();
+</script>
+</body>
+</html>
