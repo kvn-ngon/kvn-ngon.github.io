@@ -47,7 +47,9 @@ a{color:var(--neon)}
 
 /* ---------- Header / logo ---------- */
 .header{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:28px 32px}
-.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand{display:flex;align-items:center;gap:12px}
+.brand__home{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
+.brand__home:hover .emblem-wrap{filter:drop-shadow(0 0 5px var(--neon)) drop-shadow(0 0 22px var(--neon))}
 .emblem-wrap{display:flex;filter:drop-shadow(0 0 3px var(--neon)) drop-shadow(0 0 14px color-mix(in srgb,var(--neon) 60%,transparent));animation:flicker 6s steps(1) infinite}
 .emblem{display:block;width:34px;height:56px;background:var(--neon);
   -webkit-mask:var(--emblem) center/contain no-repeat;mask:var(--emblem) center/contain no-repeat}
